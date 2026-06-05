@@ -871,6 +871,13 @@ app.get('/stream/:type/:id.json', async (req, res) => {
     const searchQueryIta = `${searchQuery} ITA`;
 
     // 🚀 Search ALL sources in parallel
+    const sourceNames = [
+        'Colabrodo(title)', 'Colabrodo(ITA)',
+        'CorsaroNero', 'SolidTorrents', 'SolidTorrents(ITA)',
+        'Apibay(ITA)', 'Apibay',
+        'YTS', 'EZTV',
+        'Prowlarr', 'Jackett',
+    ];
     const sourcePromises = [
         // Colabrodo (sync but wrapped in promise)
         Promise.resolve(searchColabrodo(title)),
@@ -891,9 +898,14 @@ app.get('/stream/:type/:id.json', async (req, res) => {
 
     const sourceResults = await Promise.allSettled(sourcePromises);
     let allResults = [];
-    for (const r of sourceResults) {
+    for (let i = 0; i < sourceResults.length; i++) {
+        const r = sourceResults[i];
+        const name = sourceNames[i] || `Source${i}`;
         if (r.status === 'fulfilled' && Array.isArray(r.value)) {
+            console.log(`  📡 ${name}: ${r.value.length} results`);
             allResults.push(...r.value);
+        } else {
+            console.log(`  ❌ ${name}: ${r.status === 'rejected' ? r.reason?.message : 'empty'}`);
         }
     }
 
