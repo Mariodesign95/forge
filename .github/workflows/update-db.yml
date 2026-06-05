@@ -2,8 +2,8 @@ name: 🔄 Update Colabrodo Database
 
 on:
   schedule:
-    # Ogni lunedì alle 4:00 di mattina (UTC)
-    - cron: '0 4 * * 1'
+    # Ogni giorno alle 4:00 di mattina (UTC)
+    - cron: '0 4 * * *'
   workflow_dispatch: # Permette di avviarlo manualmente
 
 jobs:
