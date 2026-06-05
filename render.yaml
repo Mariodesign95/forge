@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: mariflix
+    runtime: docker
+    repo: https://github.com/Mariodesign95/Mariflix
+    branch: main
+    plan: free
+    healthCheckPath: /manifest.json
+    envVars:
+      - key: RD_TOKEN
+        sync: false
+      - key: TB_TOKEN
+        sync: false
+      - key: ADDON_URL
+        sync: false

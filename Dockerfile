@@ -2,7 +2,7 @@ FROM node:20-slim
 
 WORKDIR /app
 
-# Install build dependencies for better-sqlite3
+# Install build dependencies for native modules
 RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
 COPY package.json ./
@@ -10,9 +10,10 @@ RUN npm install --production
 
 COPY . .
 
-# Default port for HF Spaces
-ENV PORT=7860
+# Render sets PORT dynamically; fallback to 7000
+ENV PORT=7000
 
-EXPOSE 7860
+EXPOSE ${PORT}
 
 CMD ["node", "server.js"]
+
