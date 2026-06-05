@@ -1,0 +1,41 @@
+name: 🔄 Update Colabrodo Database
+
+on:
+  schedule:
+    # Ogni lunedì alle 4:00 di mattina (UTC)
+    - cron: '0 4 * * 1'
+  workflow_dispatch: # Permette di avviarlo manualmente
+
+jobs:
+  update-db:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📦 Download latest Colabrodo DB
+        run: |
+          mkdir -p data
+          curl -L -o data/pezzhub-db.jsonl.zip \
+            "https://github.com/sybaumike/colabrodoviola/raw/main/pezzhub-db.jsonl.zip"
+          ls -lh data/pezzhub-db.jsonl.zip
+
+      - name: 📊 Check if DB changed
+        id: check
+        run: |
+          git add data/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ Database unchanged"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "✅ Database updated!"
+          fi
+
+      - name: 🚀 Commit & Push
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "🔄 Auto-update Colabrodo database [$(date +%Y-%m-%d)]"
+          git push

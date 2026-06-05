@@ -119,14 +119,35 @@ h1{font-size:2.5rem;margin-bottom:8px;background:linear-gradient(135deg,#ff6b6b,
 // ============================================
 //  DATABASE — Colabrodo Viola (SQLite in-memory)
 // ============================================
-async function initDatabase() {
-    console.log('📦 Downloading Colabrodo Viola database...');
-    const SQL = await initSqlJs();
-    try {
-        const res = await fetch(COLABRODO_DB_URL, { timeout: 30000 });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const buffer = await res.buffer();
+const path = require('path');
+const fs = require('fs');
+const LOCAL_DB_PATH = path.join(__dirname, 'data', 'pezzhub-db.jsonl.zip');
 
+async function initDatabase() {
+    const SQL = await initSqlJs();
+    let buffer;
+
+    // 1. Try local file first (baked into Docker image during build)
+    if (fs.existsSync(LOCAL_DB_PATH)) {
+        console.log('📂 Loading Colabrodo DB from local file...');
+        buffer = fs.readFileSync(LOCAL_DB_PATH);
+    } else {
+        // 2. Fallback: download from GitHub
+        console.log('📦 Downloading Colabrodo Viola database...');
+        try {
+            const res = await fetch(COLABRODO_DB_URL, { timeout: 30000 });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            buffer = await res.buffer();
+        } catch (err) {
+            console.error('⚠️  Failed to load Colabrodo DB:', err.message);
+            console.log('ℹ️  Addon continues without local database — other sources still active');
+            db = new SQL.Database();
+            db.run('CREATE TABLE torrents (id INTEGER PRIMARY KEY, name TEXT, info_hash TEXT, size INTEGER DEFAULT 0, category TEXT DEFAULT \'\', seeders INTEGER DEFAULT 0)');
+            return;
+        }
+    }
+
+    try {
         console.log('📂 Extracting database...');
         const zip = new AdmZip(buffer);
         const entries = zip.getEntries();
@@ -179,8 +200,7 @@ async function initDatabase() {
 
         console.log(`✅ Loaded ${count} Italian torrents into memory database`);
     } catch (err) {
-        console.error('⚠️  Failed to load Colabrodo DB:', err.message);
-        console.log('ℹ️  Addon continues without local database — other sources still active');
+        console.error('⚠️  Failed to parse Colabrodo DB:', err.message);
         db = new SQL.Database();
         db.run('CREATE TABLE torrents (id INTEGER PRIMARY KEY, name TEXT, info_hash TEXT, size INTEGER DEFAULT 0, category TEXT DEFAULT \'\', seeders INTEGER DEFAULT 0)');
     }
