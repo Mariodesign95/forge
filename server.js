@@ -484,19 +484,22 @@ async function searchCorsaroNero(query) {
 // ============================================
 //  SOURCE 3: SolidTorrents API (replaces ext.to which is Cloudflare-blocked)
 // ============================================
-async function searchSolidTorrents(query) {
+async function searchSolidTorrents(query, requireItalian = true) {
     try {
         const url = `https://solidtorrents.to/api/v1/search?q=${encodeURIComponent(query)}&sort=seeders&category=video`;
+        console.log(`    [SolidTorrents] Fetching: ${url.substring(0, 100)}...`);
         const r = await fetch(url, {
-            timeout: 8000,
-            headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' }
+            timeout: 10000,
+            headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
         });
+        console.log(`    [SolidTorrents] Status: ${r.status}`);
         if (!r.ok) return [];
         const data = await r.json();
         if (!data.results || !Array.isArray(data.results)) return [];
+        console.log(`    [SolidTorrents] Raw results: ${data.results.length}`);
 
-        return data.results
-            .filter(t => t.infohash && isItalian(t.title || ''))
+        const filtered = data.results
+            .filter(t => t.infohash && (!requireItalian || isItalian(t.title || '')))
             .map(t => ({
                 name: t.title || '',
                 infoHash: (t.infohash || '').toLowerCase(),
@@ -506,8 +509,10 @@ async function searchSolidTorrents(query) {
             }))
             .filter(r => r.infoHash.length === 40)
             .slice(0, 30);
+        console.log(`    [SolidTorrents] After ITA filter: ${filtered.length}`);
+        return filtered;
     } catch (e) {
-        console.error('SolidTorrents error:', e.message);
+        console.error(`    [SolidTorrents] ERROR: ${e.message}`);
         return [];
     }
 }
@@ -515,26 +520,32 @@ async function searchSolidTorrents(query) {
 // ============================================
 //  SOURCE 4: Apibay / The Pirate Bay (API)
 // ============================================
-async function searchApibay(query) {
+async function searchApibay(query, requireItalian = true) {
     try {
         const url = `https://apibay.org/q.php?q=${encodeURIComponent(query)}&cat=`;
-        const r = await fetch(url, { timeout: 8000 });
+        console.log(`    [Apibay] Fetching: ${url.substring(0, 100)}...`);
+        const r = await fetch(url, { timeout: 10000, headers: { 'User-Agent': 'Mozilla/5.0' } });
+        console.log(`    [Apibay] Status: ${r.status}`);
         if (!r.ok) return [];
         const data = await r.json();
         if (!Array.isArray(data)) return [];
-        return data
-            .filter(t => t.id !== '0' && t.info_hash !== '0000000000000000000000000000000000000000')
-            .filter(t => isItalian(t.name))
+        console.log(`    [Apibay] Raw results: ${data.length}`);
+
+        const filtered = data
+            .filter(t => t.info_hash && t.info_hash !== '0000000000000000000000000000000000000000')
+            .filter(t => !requireItalian || isItalian(t.name))
             .map(t => ({
                 name: t.name,
-                infoHash: (t.info_hash || '').toLowerCase(),
+                infoHash: t.info_hash.toLowerCase(),
                 size: parseInt(t.size) || 0,
                 source: '🏴‍☠️ PirateBay',
                 seeders: parseInt(t.seeders) || 0
             }))
             .slice(0, 30);
+        console.log(`    [Apibay] After filter: ${filtered.length}`);
+        return filtered;
     } catch (e) {
-        console.error('Apibay error:', e.message);
+        console.error(`    [Apibay] ERROR: ${e.message}`);
         return [];
     }
 }
@@ -845,6 +856,40 @@ app.get('/resolve/:provider/:infoHash', async (req, res) => {
 });
 
 // ============================================
+//  DEBUG ENDPOINT — Test source connectivity
+// ============================================
+app.get('/debug', async (req, res) => {
+    const results = {};
+    
+    // Test Colabrodo DB
+    try {
+        const r = searchColabrodo('prada');
+        results.colabrodo = { status: 'ok', count: r.length, sample: r[0]?.name };
+    } catch (e) { results.colabrodo = { status: 'error', message: e.message }; }
+
+    // Test external sources
+    const tests = [
+        { name: 'solidtorrents', url: 'https://solidtorrents.to/api/v1/search?q=test&limit=1' },
+        { name: 'apibay', url: 'https://apibay.org/q.php?q=test&cat=' },
+        { name: 'yts', url: 'https://yts.mx/api/v2/list_movies.json?limit=1' },
+        { name: 'eztv', url: 'https://eztvx.to/api/get-torrents?limit=1' },
+        { name: 'cinemeta', url: 'https://v3-cinemeta.strem.io/meta/movie/tt0468569.json' },
+    ];
+
+    for (const t of tests) {
+        try {
+            const r = await fetch(t.url, { timeout: 10000, headers: { 'User-Agent': 'Mozilla/5.0' } });
+            const text = await r.text();
+            results[t.name] = { status: r.status, bodyLength: text.length, snippet: text.substring(0, 100) };
+        } catch (e) {
+            results[t.name] = { status: 'error', message: e.message };
+        }
+    }
+
+    res.json(results);
+});
+
+// ============================================
 //  STREAM ENDPOINT — The main Stremio route
 // ============================================
 app.get('/stream/:type/:id.json', async (req, res) => {
@@ -882,12 +927,12 @@ app.get('/stream/:type/:id.json', async (req, res) => {
         // Colabrodo (sync but wrapped in promise)
         Promise.resolve(searchColabrodo(title)),
         Promise.resolve(searchColabrodo(searchQueryIta)),
-        // Live scrapers
+        // Live scrapers  
         searchCorsaroNero(searchQueryIta),
-        searchSolidTorrents(searchQuery),
-        searchSolidTorrents(searchQueryIta),
-        searchApibay(searchQueryIta),
-        searchApibay(searchQuery),
+        searchSolidTorrents(searchQuery, false),    // Don't filter ITA here (generic query)
+        searchSolidTorrents(searchQueryIta, true),   // Filter ITA for ITA-specific query
+        searchApibay(searchQueryIta, true),           // ITA query → filter ITA
+        searchApibay(searchQuery, false),             // Generic query → accept all
         // Specialized APIs
         type === 'movie' ? searchYTS(imdbId) : Promise.resolve([]),
         type === 'series' ? searchEZTV(imdbId, season, episode) : Promise.resolve([]),
