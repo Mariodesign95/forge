@@ -1,0 +1,156 @@
+/* ─────────────────────────────────────────────────────────────
+   FORGE DESIGN SYSTEM
+   Professional dark theme. No emojis. No VS Code chrome.
+   Inspired by: Linear, Vercel, Raycast
+   ───────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ── Base palette ─────────────────────────────────────────── */
+  --c-bg:          #08080d;
+  --c-surface-0:   #0e0e16;
+  --c-surface-1:   #13131e;
+  --c-surface-2:   #191927;
+  --c-surface-3:   #1e1e30;
+
+  --c-border:      rgba(255,255,255,0.06);
+  --c-border-md:   rgba(255,255,255,0.10);
+  --c-border-hi:   rgba(255,255,255,0.15);
+
+  /* ── Accent — indigo ─────────────────────────────────────── */
+  --c-accent:      #6366f1;
+  --c-accent-hi:   #818cf8;
+  --c-accent-dim:  rgba(99,102,241,0.12);
+  --c-accent-glow: rgba(99,102,241,0.25);
+
+  /* ── Semantic ────────────────────────────────────────────── */
+  --c-success:     #10b981;
+  --c-success-dim: rgba(16,185,129,0.12);
+  --c-warning:     #f59e0b;
+  --c-warning-dim: rgba(245,158,11,0.12);
+  --c-danger:      #ef4444;
+  --c-danger-dim:  rgba(239,68,68,0.12);
+  --c-info:        #3b82f6;
+
+  /* ── Text ────────────────────────────────────────────────── */
+  --c-text-hi:   #e8e8f0;
+  --c-text-md:   #9090aa;
+  --c-text-lo:   #44445a;
+  --c-text-inv:  #ffffff;
+
+  /* ── Mission state ──────────────────────────────────────── */
+  --s-draft:     #44445a;
+  --s-planning:  #3b82f6;
+  --s-awaiting:  #f59e0b;
+  --s-approved:  #10b981;
+  --s-executing: #6366f1;
+  --s-paused:    #f59e0b;
+  --s-completed: #10b981;
+  --s-failed:    #ef4444;
+  --s-cancelled: #44445a;
+
+  /* ── Agent colors ─────────────────────────────────────────── */
+  --a-architect:  #818cf8;
+  --a-planner:    #a78bfa;
+  --a-researcher: #38bdf8;
+  --a-coder:      #34d399;
+  --a-qa:         #fb923c;
+  --a-reviewer:   #f472b6;
+  --a-designer:   #e879f9;
+  --a-marketing:  #facc15;
+  --a-automation: #22d3ee;
+  --a-operations: #94a3b8;
+
+  /* ── Layout ──────────────────────────────────────────────── */
+  --h-bar:        48px;
+  --w-kanban:     280px;
+  --w-feed:       272px;
+
+  /* ── Typography ──────────────────────────────────────────── */
+  --f-ui:   'Inter', system-ui, -apple-system, sans-serif;
+  --f-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* ── Spacing ─────────────────────────────────────────────── */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px;
+  --sp-4: 16px; --sp-5: 20px; --sp-6: 24px;
+
+  /* ── Radius ──────────────────────────────────────────────── */
+  --r-xs: 4px; --r-sm: 6px; --r-md: 8px; --r-lg: 12px;
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --t-fast:   100ms ease;
+  --t-base:   180ms ease;
+  --t-slow:   300ms cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── Reset ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  width: 100%; height: 100%; overflow: hidden;
+  background: var(--c-bg);
+  color: var(--c-text-hi);
+  font-family: var(--f-ui);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--c-border-md); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-border-hi); }
+
+/* ── Base button ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 0 12px; height: 30px;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  font-family: var(--f-ui); font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all var(--t-fast); white-space: nowrap;
+  outline: none;
+}
+.btn-primary {
+  background: var(--c-accent); color: #fff; border-color: var(--c-accent);
+}
+.btn-primary:hover { background: #5254cc; box-shadow: 0 0 0 3px var(--c-accent-dim); }
+.btn-primary:active { background: #4345b8; }
+
+.btn-ghost {
+  background: transparent; color: var(--c-text-md); border-color: var(--c-border-md);
+}
+.btn-ghost:hover { background: var(--c-surface-2); color: var(--c-text-hi); border-color: var(--c-border-hi); }
+
+.btn-sm { height: 26px; padding: 0 10px; font-size: 11px; }
+.btn:disabled { opacity: 0.38; pointer-events: none; }
+
+/* ── Badge ───────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 8px; border-radius: 99px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.05em;
+  border: 1px solid transparent;
+}
+
+/* ── Label ───────────────────────────────────────────────────── */
+.label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--c-text-lo);
+}
+
+/* ── Mono ────────────────────────────────────────────────────── */
+.mono { font-family: var(--f-mono); }
+
+/* ── Animations ──────────────────────────────────────────────── */
+@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.35 } }
+@keyframes fade-in { from { opacity:0 } to { opacity:1 } }
+@keyframes slide-up { from { transform:translateY(6px); opacity:0 } to { transform:translateY(0); opacity:1 } }
+@keyframes spin { to { transform: rotate(360deg) } }
+
+.anim-pulse  { animation: pulse 2s ease infinite; }
+.anim-fade   { animation: fade-in 200ms ease forwards; }
+.anim-slide  { animation: slide-up 180ms ease forwards; }

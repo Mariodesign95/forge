@@ -1,0 +1,50 @@
+{
+  "name": "forge-agent-os",
+  "displayName": "Forge Agent OS",
+  "description": "An Agent Operating System. Launch missions, not prompts.",
+  "version": "0.1.0",
+  "publisher": "forge",
+  "private": true,
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "forge.openMissionControl",
+        "title": "Forge: Open Mission Control"
+      },
+      {
+        "command": "forge.newMission",
+        "title": "Forge: New Mission"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "forge.openMissionControl",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm build",
+    "build": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+    "dev": "pnpm build --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@forge/types": "workspace:*",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/ws": "^8.5.10",
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.6.0"
+  }
+}

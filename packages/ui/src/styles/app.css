@@ -1,0 +1,72 @@
+/* ── App shell ───────────────────────────────────────────────── */
+.forge-app {
+  display: flex; flex-direction: column;
+  width: 100%; height: 100%; overflow: hidden;
+  background: var(--c-bg);
+}
+
+.forge-workspace {
+  display: flex; flex: 1; overflow: hidden; min-height: 0;
+}
+
+.forge-center {
+  flex: 1; overflow-y: auto; min-width: 0;
+}
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.empty-state {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  height: 100%; gap: var(--sp-3);
+  text-align: center; padding: var(--sp-6);
+}
+
+.empty-mark {
+  width: 48px; height: 48px; margin-bottom: var(--sp-3);
+  color: var(--c-accent);
+  opacity: 0.9;
+}
+
+.empty-title {
+  font-size: 22px; font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--c-text-hi);
+}
+
+.empty-sub {
+  font-size: 13px; color: var(--c-text-md);
+  max-width: 320px; line-height: 1.6;
+}
+
+.empty-cta { margin-top: var(--sp-2); }
+
+/* ── Mission detail ──────────────────────────────────────────── */
+.mission-detail {
+  display: flex; flex-direction: column; gap: var(--sp-5);
+  max-width: 720px; padding: var(--sp-6);
+}
+
+.mission-statement {
+  background: var(--c-surface-1);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-5);
+}
+
+.mission-statement p {
+  font-size: 14px; line-height: 1.75;
+  color: var(--c-text-hi); margin-top: var(--sp-2);
+}
+
+.blueprint-preview {
+  background: var(--c-surface-1);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-5);
+}
+
+.blueprint-preview pre {
+  font-size: 12px; line-height: 1.65;
+  color: var(--c-text-md); margin-top: var(--sp-2);
+  white-space: pre-wrap; word-break: break-word;
+}

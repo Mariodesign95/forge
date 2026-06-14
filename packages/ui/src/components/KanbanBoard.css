@@ -1,0 +1,117 @@
+.kanban {
+  width: var(--w-kanban); flex-shrink: 0;
+  display: flex; flex-direction: column;
+  background: var(--c-surface-0);
+  border-right: 1px solid var(--c-border);
+  overflow: hidden;
+}
+
+.kanban-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--c-border);
+  flex-shrink: 0;
+}
+
+.kanban-count {
+  font-size: 11px; color: var(--c-text-lo);
+  background: var(--c-surface-2);
+  padding: 1px 7px; border-radius: 99px;
+}
+
+.kanban-empty {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+}
+.kanban-empty-text { font-size: 12px; color: var(--c-text-lo); }
+
+.kanban-body {
+  flex: 1; overflow-y: auto; display: flex; flex-direction: column;
+}
+
+/* ── Column ──────────────────────────────────────────────────── */
+.kanban-col { flex-shrink: 0; }
+
+.kanban-col-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px var(--sp-4) 6px;
+  position: sticky; top: 0; background: var(--c-surface-0); z-index: 1;
+}
+
+.kanban-col-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--c-text-lo);
+}
+
+.kanban-col-count {
+  font-size: 10px; color: var(--c-text-lo);
+  background: var(--c-surface-2); padding: 1px 6px; border-radius: 99px;
+}
+
+.kanban-col-body {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 0 var(--sp-3) var(--sp-3);
+}
+
+/* ── Task card ───────────────────────────────────────────────── */
+.task-card {
+  background: var(--c-surface-1);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md); padding: var(--sp-3);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+  animation: fade-in 200ms ease;
+}
+.task-card:hover { border-color: var(--c-border-md); }
+
+.task-card--live {
+  border-color: var(--ac, var(--c-accent));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ac, var(--c-accent)) 20%, transparent);
+}
+.task-card--failed { border-color: var(--c-danger); }
+
+.task-head {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;
+}
+
+.agent-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.03em;
+  padding: 2px 7px; border-radius: var(--r-xs); border: 1px solid;
+}
+.agent-initial {
+  width: 14px; height: 14px; border-radius: 3px;
+  background: currentColor; opacity: 0.2;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: inherit; opacity: 1;
+}
+
+.task-live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ac, var(--c-accent));
+}
+.task-fail-mark {
+  font-size: 10px; font-weight: 700; color: var(--c-danger);
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--c-danger-dim); border: 1px solid var(--c-danger);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.task-title {
+  font-size: 12px; color: var(--c-text-hi); line-height: 1.45;
+  margin-bottom: var(--sp-2);
+}
+
+.task-meta {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.task-model, .task-cost, .task-dur {
+  font-size: 10px; color: var(--c-text-lo);
+  padding: 1px 5px; background: var(--c-surface-2); border-radius: var(--r-xs);
+}
+.task-cost { color: var(--c-success); }
+
+.task-error {
+  font-size: 11px; color: var(--c-danger);
+  margin-top: var(--sp-2); padding: var(--sp-2) var(--sp-3);
+  background: var(--c-danger-dim); border-radius: var(--r-xs);
+  line-height: 1.4;
+}

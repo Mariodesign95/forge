@@ -1,0 +1,79 @@
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200; animation: fade-in 150ms ease;
+}
+
+.modal {
+  background: var(--c-surface-1);
+  border: 1px solid var(--c-border-hi);
+  border-radius: var(--r-lg);
+  padding: var(--sp-6);
+  width: 540px; max-width: calc(100vw - 32px);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+  animation: slide-up 200ms ease;
+}
+
+.modal-header {
+  display: flex; align-items: flex-start; gap: var(--sp-3); margin-bottom: var(--sp-5);
+}
+.modal-icon {
+  flex-shrink: 0; margin-top: 2px;
+}
+.modal-title {
+  font-size: 16px; font-weight: 700; letter-spacing: -0.02em;
+  color: var(--c-text-hi); margin-bottom: 4px;
+}
+.modal-sub {
+  font-size: 12px; color: var(--c-text-md); line-height: 1.5;
+}
+.modal-close {
+  margin-left: auto; flex-shrink: 0;
+  font-size: 13px; color: var(--c-text-lo);
+}
+
+/* Form */
+.modal-form { display: flex; flex-direction: column; gap: var(--sp-4); }
+
+.field { display: flex; flex-direction: column; gap: var(--sp-2); }
+
+.input {
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border-md);
+  border-radius: var(--r-sm);
+  padding: 9px var(--sp-3);
+  color: var(--c-text-hi);
+  font-family: var(--f-ui); font-size: 13px;
+  outline: none; width: 100%;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.input::placeholder { color: var(--c-text-lo); }
+.input:focus {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px var(--c-accent-dim);
+}
+.textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
+
+/* Examples */
+.example-list { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.example-chip {
+  background: transparent;
+  border: 1px solid var(--c-border-md);
+  border-radius: var(--r-sm);
+  padding: 4px 10px; font-size: 11px; color: var(--c-text-md);
+  font-family: var(--f-ui); cursor: pointer;
+  transition: all var(--t-fast);
+}
+.example-chip:hover {
+  border-color: var(--c-accent); color: var(--c-accent-hi);
+  background: var(--c-accent-dim);
+}
+
+/* Actions */
+.modal-actions {
+  display: flex; justify-content: flex-end; gap: var(--sp-2);
+  margin-top: var(--sp-2);
+}

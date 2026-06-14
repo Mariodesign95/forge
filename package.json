@@ -1,21 +1,26 @@
 {
-  "name": "mariflix-stremio-addon",
-  "version": "1.0.0",
-  "description": "Mariflix — Private Stremio addon for Italian torrents with Real-Debrid & Torbox",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.21.0",
-    "dotenv": "^16.4.5",
-    "node-fetch": "^2.7.0",
-    "adm-zip": "^0.5.16",
-    "sql.js": "^1.11.0",
-    "cheerio": "^1.0.0"
-  },
+  "name": "forge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Forge - Agent Operating System",
+  "type": "module",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0",
+    "pnpm": ">=11.0.0"
+  },
+  "packageManager": "pnpm@11.6.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm -r --parallel dev",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "clean": "pnpm -r exec rimraf dist node_modules .turbo"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^20.0.0",
+    "tsx": "^4.19.0",
+    "rimraf": "^6.0.1"
   }
 }
