@@ -7,6 +7,7 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import { registerIpcHandlers } from './ipc-handlers';
+import { initAutoUpdater } from './updater';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -31,6 +32,9 @@ function createMainWindow() {
 
   // Register IPC handlers
   registerIpcHandlers(mainWindow);
+
+  // Initialize Auto Updater
+  initAutoUpdater(mainWindow);
 
   if (isDev) {
     // Load from Vite dev server in development

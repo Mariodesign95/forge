@@ -28,6 +28,8 @@ export interface ModelRouterConfig {
   openRouterModel?: string;
   /** Timeout in milliseconds — default: 60_000 */
   timeoutMs?: number;
+  /** Optional external abort signal to cancel streaming */
+  abortSignal?: AbortSignal;
 }
 
 export interface ChatMessage {
@@ -119,11 +121,11 @@ function classifyError(err: unknown): IpcError {
   if (err instanceof Error) {
     const msg = err.message.toLowerCase();
 
-    // AbortController triggered by our own timeout
+    // AbortController triggered by our own timeout or manual cancellation
     if (err.name === 'AbortError' || msg.includes('aborted') || msg.includes('timeout')) {
       return {
         code: ERROR_CODES.PROVIDER_TIMEOUT,
-        message: 'The AI provider did not respond within the timeout period.',
+        message: 'The AI provider did not respond within the timeout period or the request was cancelled.',
       };
     }
 
@@ -178,6 +180,17 @@ export class ModelRouter {
     const timeoutHandle = setTimeout(() => {
       controller.abort();
     }, timeoutMs);
+
+    // Link the external abort signal if provided
+    if (config.abortSignal) {
+      if (config.abortSignal.aborted) {
+        controller.abort();
+      } else {
+        config.abortSignal.addEventListener('abort', () => {
+          controller.abort();
+        });
+      }
+    }
 
     try {
       const languageModel = buildModel(config);

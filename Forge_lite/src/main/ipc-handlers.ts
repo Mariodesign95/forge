@@ -8,6 +8,9 @@
 import { ipcMain, dialog, shell, BrowserWindow } from 'electron';
 import { IPC_CHANNELS } from '../shared/ipc-channels';
 
+import { randomUUID } from 'crypto';
+import { modelRouter } from './model-router';
+
 // Import services
 import * as keyStore from './key-store';
 import * as appStore from './app-store';
@@ -15,6 +18,13 @@ import * as projectStore from './project-store';
 import { snapshotManager } from './snapshot-manager';
 import { SearchService } from './search-service';
 import { Provider } from '../renderer/types';
+
+import { exportService } from './export-service';
+import * as updater from './updater';
+
+// Shared jobs map (Requirement 2.4, 2.5, 9.1, 9.5)
+export const activeJobs = new Map<string, AbortController>();
+let lastActiveChatJobId: string | null = null;
 
 // Instantiate search service singleton
 const searchService = new SearchService();
@@ -27,6 +37,78 @@ function isValidProvider(provider: any): provider is Provider {
 }
 
 export function registerIpcHandlers(mainWindow: BrowserWindow): void {
+  // ─── AI CHAT & GENERATE HANDLERS (Requirements 2, 9) ────────────────────────
+  
+  ipcMain.handle(IPC_CHANNELS.AI.CHAT, async (event, payload) => {
+    const { messages, provider, model } = payload || {};
+    if (!Array.isArray(messages) || !isValidProvider(provider) || typeof model !== 'string') {
+      throw new Error('Invalid payload for ai:chat');
+    }
+
+    const jobId = randomUUID();
+    lastActiveChatJobId = jobId;
+    const controller = new AbortController();
+    activeJobs.set(jobId, controller);
+
+    const apiKey = keyStore.getKey(provider);
+    const settings = appStore.loadSettings();
+    const ollamaEndpoint = settings.providers.ollama?.ollamaEndpoint;
+    const openRouterModel = settings.providers.openrouter?.openRouterModel;
+
+    // Run streaming asynchronously to avoid blocking the IPC handler return
+    (async () => {
+      try {
+        const stream = modelRouter.stream(messages, {
+          provider,
+          model,
+          apiKey,
+          ollamaEndpoint,
+          openRouterModel,
+          abortSignal: controller.signal,
+        });
+
+        for await (const chunk of stream) {
+          if (controller.signal.aborted) {
+            break;
+          }
+          event.sender.send(IPC_CHANNELS.EVENTS.AI_STREAM, { jobId, chunk, done: false });
+        }
+
+        if (!controller.signal.aborted) {
+          event.sender.send(IPC_CHANNELS.EVENTS.AI_STREAM, { jobId, chunk: '', done: true });
+        }
+      } catch (err: any) {
+        console.error('[IPC] ai:chat error:', err);
+        event.sender.send(IPC_CHANNELS.EVENTS.AI_ERROR, {
+          jobId,
+          code: err.code || 'PROVIDER_ERROR',
+          message: err.message || String(err),
+        });
+      } finally {
+        activeJobs.delete(jobId);
+        if (lastActiveChatJobId === jobId) {
+          lastActiveChatJobId = null;
+        }
+      }
+    })();
+
+    return { jobId };
+  });
+
+  ipcMain.handle(IPC_CHANNELS.AI.ABORT, async (_, payload) => {
+    const { jobId } = payload || {};
+    const targetJobId = jobId || lastActiveChatJobId;
+    
+    if (targetJobId) {
+      const controller = activeJobs.get(targetJobId);
+      if (controller) {
+        controller.abort();
+        activeJobs.delete(targetJobId);
+        return { ok: true };
+      }
+    }
+    return { ok: false };
+  });
   // ─── KEY STORE HANDLERS (Requirement 8) ─────────────────────────────────────
   
   ipcMain.handle(IPC_CHANNELS.KEYS.SAVE, async (_, payload) => {
@@ -207,8 +289,18 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
   // ─── EXPORT HANDLERS (Requirement 7) ────────────────────────────────────────
   
   ipcMain.handle(IPC_CHANNELS.EXPORT.ZIP, async (_, payload) => {
-    console.log('[IPC] EXPORT_ZIP stub', payload);
-    return { zipPath: '' };
+    const { projectId, template, destDir, projectFiles, brief } = payload || {};
+    if (
+      typeof projectId !== 'string' ||
+      typeof destDir !== 'string' ||
+      !Array.isArray(projectFiles) ||
+      !brief ||
+      typeof brief !== 'object'
+    ) {
+      throw new Error('Invalid payload for export:zip');
+    }
+    const zipPath = await exportService.createZip(projectId, template, destDir, projectFiles, brief);
+    return { zipPath };
   });
 
   ipcMain.handle(IPC_CHANNELS.EXPORT.OPEN_FOLDER, async (_, payload) => {
@@ -234,12 +326,11 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
   // ─── AUTO UPDATE HANDLERS (Requirement 12) ───────────────────────────────────
   
   ipcMain.handle(IPC_CHANNELS.UPDATE.CHECK, async () => {
-    console.log('[IPC] UPDATE_CHECK stub');
-    return { hasUpdate: false };
+    return await updater.checkForUpdates();
   });
 
   ipcMain.handle(IPC_CHANNELS.UPDATE.INSTALL, async () => {
-    console.log('[IPC] UPDATE_INSTALL stub');
+    updater.quitAndInstall();
     return { ok: true };
   });
 }
