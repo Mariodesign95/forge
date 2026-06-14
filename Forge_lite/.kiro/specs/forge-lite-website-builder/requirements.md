@@ -66,7 +66,7 @@ I requirements sono organizzati in tre fasi:
 
 1. WHEN l'utente avvia una nuova sessione, THE App SHALL presentare l'AI_Chat in Plan Mode come schermata iniziale, prima di qualsiasi generazione di codice.
 2. WHEN l'utente invia un messaggio in Plan Mode, THE AI_Chat SHALL inviare la richiesta al Model_Router tramite IPC e visualizzare la risposta dell'AI in streaming.
-3. WHILE il Plan Mode è attivo, THE AI_Chat SHALL raccogliere almeno i seguenti campi nel Brief: tipo di sito, numero di pagine, stile visivo, target audience, nome del brand, palette colori preferita.
+3. WHILE il Plan Mode è attivo, THE AI_Chat SHALL raccogliere almeno i seguenti campi nel Brief: tipo di sito, numero di pagine, stile visivo, target audience, nome del brand, palette colori preferita, lingua target del sito (es. Italiano, Inglese).
 4. WHEN l'AI ha raccolto informazioni sufficienti, THE AI_Chat SHALL generare un Brief strutturato in formato JSON e presentarlo all'utente in un pannello di anteprima dedicato.
 5. WHEN l'utente visualizza il Brief, THE App SHALL offrire due azioni esclusive: "Approva e Genera" e "Modifica Brief".
 6. WHEN l'utente seleziona "Modifica Brief", THE AI_Chat SHALL riprendere la conversazione in Plan Mode mantenendo il contesto accumulato.
