@@ -1,0 +1,27 @@
+{
+  "id": "stripe",
+  "name": "Stripe Sleek",
+  "inspiration": "Stripe",
+  "description": "Modern tech aesthetic featuring smooth indigo gradients, refined spacing, and extremely polished card components.",
+  "thumbnail": "gradient-stripe",
+  "colors": {
+    "background": "#ffffff",
+    "foreground": "#0a2540",
+    "primary": "#635bff",
+    "secondary": "#00d4ff",
+    "accent": "#7a73ff",
+    "muted": "#adbdcc",
+    "border": "#e3e8ee",
+    "card": "#f6f9fc"
+  },
+  "typography": {
+    "fontFamily": "Inter, sans-serif",
+    "headingsFont": "Outfit, sans-serif",
+    "bodyFont": "Inter, sans-serif",
+    "baseSize": "16px"
+  },
+  "spacing": "1.5rem",
+  "borderRadius": "8px",
+  "shadow": "0 4px 6px -1px rgba(50, 50, 93, 0.11), 0 1px 3px -1px rgba(0, 0, 0, 0.08)",
+  "promptBlock": "Use Stripe's iconic design system rules. Colors: background is pure white (#ffffff), foreground is deep navy (#0a2540), primary actions are vibrant violet (#635bff) with secondary accents in bright cyan (#00d4ff). Cards use soft backgrounds (#f6f9fc) and fine borders (#e3e8ee). Font for headings must be Outfit, body font is Inter. Use clean borders (8px radius) and subtle hover animations with shadow transitions."
+}

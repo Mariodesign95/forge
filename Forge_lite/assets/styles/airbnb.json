@@ -1,0 +1,27 @@
+{
+  "id": "airbnb",
+  "name": "Airbnb Cozy",
+  "inspiration": "Airbnb",
+  "description": "Warm and friendly layout utilizing bold cards, rounded buttons, and distinctive circular-style typography.",
+  "thumbnail": "cozy-airbnb",
+  "colors": {
+    "background": "#ffffff",
+    "foreground": "#222222",
+    "primary": "#ff385c",
+    "secondary": "#717171",
+    "accent": "#ff385c",
+    "muted": "#ebebeb",
+    "border": "#dddddd",
+    "card": "#ffffff"
+  },
+  "typography": {
+    "fontFamily": "Circular, -apple-system, sans-serif",
+    "headingsFont": "Circular, sans-serif",
+    "bodyFont": "Circular, sans-serif",
+    "baseSize": "16px"
+  },
+  "spacing": "1.25rem",
+  "borderRadius": "16px",
+  "shadow": "0 6px 16px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.04)",
+  "promptBlock": "Apply Airbnb's design guidelines. Foreground text should be #222222. The brand color is warm rose-red (#ff385c) used for call-to-actions, icons, and highlights. Cards must feature large border-radius (16px), soft grey border lines (#dddddd), and highly structured margins. Buttons should have full round corners or 24px pill radius. Ensure search bar or hero input modules look friendly and cozy."
+}

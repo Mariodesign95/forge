@@ -1,0 +1,27 @@
+{
+  "id": "apple",
+  "name": "Apple Classic",
+  "inspiration": "Apple",
+  "description": "Ultra-clean minimalist system utilizing high contrast, fine typography, and high-fidelity product showcases.",
+  "thumbnail": "minimal-apple",
+  "colors": {
+    "background": "#ffffff",
+    "foreground": "#1d1d1f",
+    "primary": "#0071e3",
+    "secondary": "#86868b",
+    "accent": "#f5f5f7",
+    "muted": "#d2d2d7",
+    "border": "#e8e8ed",
+    "card": "#ffffff"
+  },
+  "typography": {
+    "fontFamily": "SF Pro Display, -apple-system, sans-serif",
+    "headingsFont": "SF Pro Display, system-ui, sans-serif",
+    "bodyFont": "SF Pro Text, system-ui, sans-serif",
+    "baseSize": "16px"
+  },
+  "spacing": "2rem",
+  "borderRadius": "12px",
+  "shadow": "0 8px 30px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02)",
+  "promptBlock": "Use Apple's design principles. High contrast, generous whitespace, and focus on absolute simplicity. Background is pure white, text is soft charcoal (#1d1d1f). Headings use SF Pro Display with heavy weights and tight letter spacing. Cards should have very soft border-radius (12px), tiny thin borders (#e8e8ed), and extremely low-opacity shadows. Buttons should either be flat black, filled sky blue (#0071e3), or clean borderless text links."
+}

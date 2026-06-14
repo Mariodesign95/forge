@@ -1,0 +1,27 @@
+{
+  "id": "vercel",
+  "name": "Vercel Geometric",
+  "inspiration": "Vercel",
+  "description": "High contrast geometry with sharp corners, ultra-dark backgrounds, and bold, tech-focused typography.",
+  "thumbnail": "geometric-vercel",
+  "colors": {
+    "background": "#000000",
+    "foreground": "#ffffff",
+    "primary": "#ffffff",
+    "secondary": "#888888",
+    "accent": "#0070f3",
+    "muted": "#111111",
+    "border": "#333333",
+    "card": "#000000"
+  },
+  "typography": {
+    "fontFamily": "Geist, sans-serif",
+    "headingsFont": "Geist Sans, sans-serif",
+    "bodyFont": "Geist Sans, sans-serif",
+    "baseSize": "16px"
+  },
+  "spacing": "1.5rem",
+  "borderRadius": "0px",
+  "shadow": "0 0 0 1px #333333",
+  "promptBlock": "Style: Vercel Geometric. Pure black background (#000000) and bright white foreground text (#ffffff). Use Geist Sans typography. Buttons and cards must feature perfectly sharp corners (0px border radius) and thin dark borders (#333333). Primary elements are white, secondary actions are dim grey (#888888). Accent colors can be electric blue (#0070f3). Keep the design block-based and highly structured."
+}

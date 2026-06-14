@@ -1,0 +1,27 @@
+{
+  "id": "shadcn",
+  "name": "Shadcn Standard",
+  "inspiration": "Shadcn",
+  "description": "Clean, structural slate theme based on Radix UI conventions, standard 8px roundings, and fine dividers.",
+  "thumbnail": "standard-shadcn",
+  "colors": {
+    "background": "#ffffff",
+    "foreground": "#0f172a",
+    "primary": "#0f172a",
+    "secondary": "#64748b",
+    "accent": "#f1f5f9",
+    "muted": "#f8fafc",
+    "border": "#e2e8f0",
+    "card": "#ffffff"
+  },
+  "typography": {
+    "fontFamily": "Inter, sans-serif",
+    "headingsFont": "Inter, system-ui, sans-serif",
+    "bodyFont": "Inter, sans-serif",
+    "baseSize": "16px"
+  },
+  "spacing": "1.5rem",
+  "borderRadius": "8px",
+  "shadow": "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)",
+  "promptBlock": "Style: Shadcn UI. Background is white, text is deep slate (#0f172a). Borders are thin slate (#e2e8f0). Use 8px border-radius. Button states are solid black filled, outlines are clean, and card margins are generous. Primary layout is clean, centered, and mimics shadcn/ui components (e.g. badge tags, subtle form containers, slate tabs, and structured grid cards)."
+}

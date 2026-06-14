@@ -1,0 +1,27 @@
+{
+  "id": "linear",
+  "name": "Linear Glow",
+  "inspiration": "Linear",
+  "description": "Futuristic dark-themed interface with subtle neon borders, deep slate colors, and precise monospace highlights.",
+  "thumbnail": "dark-linear",
+  "colors": {
+    "background": "#0c0d0e",
+    "foreground": "#f7f8f8",
+    "primary": "#5e6ad2",
+    "secondary": "#b4bcd0",
+    "accent": "#5e6ad2",
+    "muted": "#1c1e20",
+    "border": "#222528",
+    "card": "#151618"
+  },
+  "typography": {
+    "fontFamily": "Inter, sans-serif",
+    "headingsFont": "Inter, system-ui, sans-serif",
+    "bodyFont": "Inter, sans-serif",
+    "baseSize": "15px"
+  },
+  "spacing": "1.2rem",
+  "borderRadius": "6px",
+  "shadow": "0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05)",
+  "promptBlock": "Style: Linear (SaaS Dark Mode). Background is pitch black or dark grey (#0c0d0e). Cards use slightly lighter carbon (#151618) with a fine border (#222528). Primary brand color is electric purple (#5e6ad2) with subtle glow highlights. Use compact borders (6px radius), strict pixel spacing, and high-fidelity tech grid alignments. Hover states should include a tiny white inset outline glow."
+}

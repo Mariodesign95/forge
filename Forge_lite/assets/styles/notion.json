@@ -1,0 +1,27 @@
+{
+  "id": "notion",
+  "name": "Notion Clean",
+  "inspiration": "Notion",
+  "description": "Minimal block-based writing aesthetic with thick solid borders, typewriter elements, and clean pastel badge highlights.",
+  "thumbnail": "notebook-notion",
+  "colors": {
+    "background": "#ffffff",
+    "foreground": "#37352f",
+    "primary": "#37352f",
+    "secondary": "#9b9a97",
+    "accent": "#fff9db",
+    "muted": "#f1f1ef",
+    "border": "#e9e9e6",
+    "card": "#f7f7f5"
+  },
+  "typography": {
+    "fontFamily": "Inter, sans-serif",
+    "headingsFont": "Segoe UI, Inter, sans-serif",
+    "bodyFont": "Segoe UI, Inter, sans-serif",
+    "baseSize": "16px"
+  },
+  "spacing": "1rem",
+  "borderRadius": "4px",
+  "shadow": "none",
+  "promptBlock": "Style: Notion clean document. Standard layout, low shadow, solid thin borders (#e9e9e6). Background is pure white, text is soft charcoal black (#37352f). Include blocks and sidebars using grey backgrounds (#f7f7f5). Highlights use soft yellow (#fff9db) or light pastel green. Typography is friendly and blocky, using Segoe UI or Inter. Spacing is tight and highly readable."
+}

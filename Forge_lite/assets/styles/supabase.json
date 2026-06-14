@@ -1,0 +1,27 @@
+{
+  "id": "supabase",
+  "name": "Supabase Emerald",
+  "inspiration": "Supabase",
+  "description": "Premium developer interface using rich dark slate backdrops, emerald green status highlights, and clean card partitions.",
+  "thumbnail": "emerald-supabase",
+  "colors": {
+    "background": "#1c1c1c",
+    "foreground": "#ededed",
+    "primary": "#3ecf8e",
+    "secondary": "#8b8b8b",
+    "accent": "#3ecf8e",
+    "muted": "#2e2e2e",
+    "border": "#2c2c2c",
+    "card": "#1f1f1f"
+  },
+  "typography": {
+    "fontFamily": "Inter, sans-serif",
+    "headingsFont": "Inter, system-ui, sans-serif",
+    "bodyFont": "Inter, sans-serif",
+    "baseSize": "15px"
+  },
+  "spacing": "1.25rem",
+  "borderRadius": "6px",
+  "shadow": "0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1)",
+  "promptBlock": "Style: Supabase. Colors: background is dark charcoal (#1c1c1c), cards are slightly lighter slate (#1f1f1f), and highlights/primary actions are Supabase green (#3ecf8e). Font is clean Inter. Cards have 6px border-radius and thin borders (#2c2c2c). Create developers layouts with database table styles, green accent badges, and high-quality dark UI grids."
+}

@@ -1,0 +1,18 @@
+appId: com.forgelite.app
+productName: Forge Lite
+directories:
+  output: dist-app
+files:
+  - dist/**/*
+  - package.json
+  - assets/**/*
+win:
+  target: nsis
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+mac:
+  target: dmg
+linux:
+  target: AppImage
